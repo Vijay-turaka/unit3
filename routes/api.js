@@ -4,7 +4,7 @@ var router = express.Router();
 
 // Models
 var TeamController = require("../models/team");
-const playerController = require("../controllers/playerController");
+const PlayerController = require("../controllers/playerController");
 
 // Routes
 
@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
 router.get("/getAllDetails", async (req, res) => {
   try {
     const data = await TeamController.find();
-    res.status(200).res.json(data);
+    res.json(data);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -23,11 +23,11 @@ router.get("/getAllDetails", async (req, res) => {
 
 router.post("/addPlayer", async (req, res) => {
   try {
-    playerController.create(req.body, (err, playerResponse) => {
+    PlayerController.create(req.body, (err, playerResponse) => {
       if (err) {
         return res.send({ response: err });
       }
-      res.status(200).res.send({
+      res.send({
         response: playerResponse,
       });
     });
@@ -47,7 +47,7 @@ router.patch("/update/:id", async (req, res) => {
       options
     );
 
-    res.status(200).res.send(result);
+    res.send(result);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -57,7 +57,7 @@ router.delete("/delete/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     const data = await TeamController.findOneAndRemove(id);
-    res.status(200).res.send(`Player ${data.name} has been deleted..`);
+    res.status(200);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -69,7 +69,7 @@ router.get("/getWhoScoredMoreRuns", async (req, res) => {
       if (err) {
         return res.send({ response: err });
       }
-      res.status(200).res.json({
+      res.json({
         response: details,
       });
     });
@@ -85,7 +85,7 @@ router.get("/getWhoPlayedLeastBalls", async (req, res) => {
         return res.send({ response: err });
       }
 
-      res.status(200).res.json({
+      res.json({
         response: details,
       });
     });
@@ -101,7 +101,7 @@ router.get("/getWhoScoredHighestSixes", async (req, res) => {
         return res.send({ response: err });
       }
 
-      res.status(200).res.json({
+      res.json({
         response: details,
       });
     });
@@ -119,7 +119,7 @@ router.get(
           return res.send({ response: err });
         }
 
-        res.status(200).res.json({
+        res.json({
           response: details,
         });
       });
@@ -136,7 +136,7 @@ router.get("/getPlayerWhoHaveHighestBattingStrike", async (req, res) => {
         return res.send({ response: err });
       }
 
-      res.status(200).res.json({
+      res.json({
         response: details,
       });
     });
